@@ -21,22 +21,26 @@ FROM_NAME = os.getenv("EMAIL_FROM_NAME", "Lead Agents Studio")
 SENT_FILE = "/tmp/sent_las.json"
 FOLLOWUP_FILE = "/tmp/followup_tracking.json"
 
-# ============== FOLLOW-UP TEMPLATES ==============
+# ============== FOLLOW-UP TEMPLATES (OGILVY) ==============
 
 FOLLOWUP_1 = {
     "subject": "following up - {company_name}",
     "body": """Hi {first_name},
 
-Following up on my message from a few days ago.
+Following up with one simple idea:
 
-Quick recap: we built a system that replies to patient inquiries instantly (WhatsApp/SMS) — 24/7, even after hours.
+Clinics don't lose money because ads "don't work."
+They lose money because:
+(1) creative gets stale, and
+(2) the first reply is slow.
 
-No more lost leads because someone replied faster.
+Lead Agents Studio solves both:
+fresh AI video creatives on demand + instant follow‑up/booking on WhatsApp/SMS/phone.
 
-Takes 60 seconds to test on your phone:
+If you're curious, the live demo takes about a minute:
 https://leadagentsstudio.com
 
-Worth a look?
+Want the WhatsApp demo or the quick call demo?
 
 —
 Lead Agents Studio
@@ -52,12 +56,11 @@ FOLLOWUP_2 = {
 
 Last note from me.
 
-If instant patient response + automatic booking sounds useful, here's the link:
+If "fresh creatives + instant follow‑up that books" is relevant for {company_name},
+here's the demo link:
 https://leadagentsstudio.com
 
-Takes 60 seconds to see it work.
-
-Otherwise, no worries — I'll leave you be.
+If it's not a priority right now, no worries — I'll close the loop.
 
 —
 Lead Agents Studio

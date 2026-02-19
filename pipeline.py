@@ -73,25 +73,24 @@ def save_sent_email(email: str):
 
 EMAIL_TEMPLATE = """Hi {first_name},
 
-Running a medspa means juggling a lot — especially when it comes to patient inquiries.
+Quick question — when someone messages {company_name} after hours asking about a treatment… what happens next?
 
-Here's a pattern we see: leads come in, but the follow-up isn't instant. Admin is busy, it's after hours, or someone replies "later."
+In most clinics the lead dies in the next 15 minutes:
+missed call, late reply, "we'll get back later."
+So they message another clinic and book whoever answers first.
 
-The lead messages another clinic. They book whoever replies first.
+Lead Agents Studio fixes the leak with one pipeline:
+1) Fresh AI video ads on demand (owner-avatar + UGC-style + custom b-roll)
+2) Instant WhatsApp/SMS + calling to qualify politely
+3) Automatic booking + reminders + quiet-lead follow-up (then stop)
 
-We built a system that fixes this:
-• Instant reply (WhatsApp/SMS) — 24/7
-• Polite qualification (interest, timing, readiness)
-• Automatic booking (no back-and-forth)
-
-Your team gets a clean handoff with full context.
-
-Takes 60 seconds to see it work on your phone:
+If you want to see it, the live demo runs on your own phone:
 https://leadagentsstudio.com
 
-Interested?
+Should I send the right demo path for you — WhatsApp, SMS, or a 60‑second call?
 
-P.S. The system also generates fresh video ad creatives on demand — so you're never stuck waiting on filming.
+P.S. The demo uses a small $5 credit because it triggers real messages/calls (keeps it spam-free).
+P.P.S. Setup is $5,000 one time (not monthly). Running costs are pay‑as‑you‑go usage.
 
 —
 Lead Agents Studio
