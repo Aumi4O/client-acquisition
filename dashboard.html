@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Agents Studio - Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #888;
+            margin-bottom: 40px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .stat-label {
+            color: #888;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .stat-change {
+            font-size: 14px;
+            color: #4ade80;
+        }
+        .stat-change.negative {
+            color: #f87171;
+        }
+        .section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+        .email-list {
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        .email-item {
+            padding: 4px 0;
+            border-bottom: 1px solid #222;
+        }
+        .refresh-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .refresh-btn:hover {
+            background: #2563eb;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4ade80;
+            margin-right: 8px;
+        }
+        .last-updated {
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lead Agents Studio</h1>
+        <p class="subtitle">
+            <span class="status-indicator"></span>
+            System running 24/7
+        </p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Sent</div>
+                <div class="stat-value" id="total-sent">-</div>
+                <div class="stat-change">All time</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Open Rate</div>
+                <div class="stat-value" id="open-rate">-</div>
+                <div class="stat-change" id="open-change">-</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Click Rate</div>
+                <div class="stat-value" id="click-rate">-</div>
+                <div class="stat-change" id="click-change">-</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Opens</div>
+                <div class="stat-value" id="opens">-</div>
+                <div class="stat-change">Total opens</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Recent Sent Emails</h2>
+            <div class="email-list" id="email-list">
+                Loading...
+            </div>
+        </div>
+
+        <button class="refresh-btn" onclick="loadData()">Refresh Data</button>
+        <div class="last-updated" id="last-updated"></div>
+    </div>
+
+    <script>
+        const API_URL = 'https://acquisition-pipeline.onrender.com';
+
+        async function loadData() {
+            try {
+                // Load stats
+                const statsRes = await fetch(`${API_URL}/api/stats`);
+                const stats = await statsRes.json();
+
+                document.getElementById('total-sent').textContent = stats.total_sent || 0;
+                document.getElementById('open-rate').textContent = stats.open_rate || '0%';
+                document.getElementById('click-rate').textContent = stats.click_rate || '0%';
+                document.getElementById('opens').textContent = stats.opens || 0;
+
+                // Load sent emails
+                const sentRes = await fetch(`${API_URL}/api/sent`);
+                const sent = await sentRes.json();
+
+                const emailList = document.getElementById('email-list');
+                if (sent.emails && sent.emails.length > 0) {
+                    emailList.innerHTML = sent.emails
+                        .slice(-50)
+                        .reverse()
+                        .map((email, i) => `<div class="email-item">${i + 1}. ${email}</div>`)
+                        .join('');
+                } else {
+                    emailList.innerHTML = '<div style="color: #666;">No emails sent yet</div>';
+                }
+
+                // Update timestamp
+                document.getElementById('last-updated').textContent = 
+                    `Last updated: ${new Date().toLocaleString()}`;
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('email-list').innerHTML = 
+                    '<div style="color: #f87171;">Error loading data. Is the API running?</div>';
+            }
+        }
+
+        // Load on page load
+        loadData();
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadData, 30000);
+    </script>
+</body>
+</html>

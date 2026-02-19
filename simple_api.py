@@ -22,6 +22,12 @@ def load_sent():
 def root():
     return {"service": "Lead Agents Studio", "status": "running"}
 
+@app.get("/dashboard")
+def dashboard():
+    """Serve dashboard HTML"""
+    from fastapi.responses import FileResponse
+    return FileResponse("dashboard.html")
+
 @app.get("/health")
 def health():
     return {"status": "healthy"}
