@@ -40,3 +40,13 @@ def run_pipeline(background_tasks: BackgroundTasks):
     
     background_tasks.add_task(run)
     return {"status": "triggered"}
+
+@app.post("/api/followup/run")
+def run_followup(background_tasks: BackgroundTasks):
+    """Trigger follow-up system"""
+    
+    def run():
+        subprocess.run(["python3", "followup_system.py"], capture_output=True)
+    
+    background_tasks.add_task(run)
+    return {"status": "triggered"}
